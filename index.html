@@ -94,16 +94,82 @@
             <input type="text" name="titulo" placeholder="Máximo 2 líneas - 35 caracteres" maxlength="35" required>
 
             <label>Color del Título</label>
-            <select name="colorTitulo" placeholder="Elegí un color" required></select>
+            <select name="colorTitulo" placeholder="Elegí un color" required>
+                <option value="">Seleccionar</option>
+                <option value="Rojo">Rojo</option>
+                <option value="Naranja">Naranja</option>
+                <option value="Amarillo">Amarillo</option>
+                <option value="Verde">Verde</option>
+                <option value="Celeste">Celeste</option>
+                <option value="Azul">Azul</option>
+                <option value="Violeta">Violeta</option>
+                <option value="Rosa">Rosa</option>
+                <option value="Marrón">Marrón</option>
+                <option value="Gris">Gris</option>
+                <option value="Negro">Negro</option>
+                <option value="Blanco">Blanco</option>
+                <option value="Dorado">Dorado</option>
+                <option value="Plateado">Plateado</option>
+                <option value="Turquesa">Turquesa</option>
+                <option value="Coral">Coral</option>
+                <option value="Fucsia">Fucsia</option>
+                <option value="Verde Lima">Verde Lima</option>
+                <option value="Azul Marino">Azul Marino</option>
+                <option value="Beige">Beige</option>
+            </select>
 
             <label>Bajada</label>
             <textarea name="bajada" placeholder="Máximo 5 líneas - 120 caracteres" maxlength="120" rows="5" required></textarea>
 
             <label>Color de la Bajada</label>
-            <select name="colorBajada" required></select>
+            <select name="colorBajada" required>
+                <option value="">Seleccionar</option>
+                <option value="Rojo">Rojo</option>
+                <option value="Naranja">Naranja</option>
+                <option value="Amarillo">Amarillo</option>
+                <option value="Verde">Verde</option>
+                <option value="Celeste">Celeste</option>
+                <option value="Azul">Azul</option>
+                <option value="Violeta">Violeta</option>
+                <option value="Rosa">Rosa</option>
+                <option value="Marrón">Marrón</option>
+                <option value="Gris">Gris</option>
+                <option value="Negro">Negro</option>
+                <option value="Blanco">Blanco</option>
+                <option value="Dorado">Dorado</option>
+                <option value="Plateado">Plateado</option>
+                <option value="Turquesa">Turquesa</option>
+                <option value="Coral">Coral</option>
+                <option value="Fucsia">Fucsia</option>
+                <option value="Verde Lima">Verde Lima</option>
+                <option value="Azul Marino">Azul Marino</option>
+                <option value="Beige">Beige</option>
+            </select>
 
             <label>Color de Fondo</label>
-            <select name="colorFondo" required></select>
+            <select name="colorFondo" required>
+                <option value="">Seleccionar</option>
+                <option value="Rojo">Rojo</option>
+                <option value="Naranja">Naranja</option>
+                <option value="Amarillo">Amarillo</option>
+                <option value="Verde">Verde</option>
+                <option value="Celeste">Celeste</option>
+                <option value="Azul">Azul</option>
+                <option value="Violeta">Violeta</option>
+                <option value="Rosa">Rosa</option>
+                <option value="Marrón">Marrón</option>
+                <option value="Gris">Gris</option>
+                <option value="Negro">Negro</option>
+                <option value="Blanco">Blanco</option>
+                <option value="Dorado">Dorado</option>
+                <option value="Plateado">Plateado</option>
+                <option value="Turquesa">Turquesa</option>
+                <option value="Coral">Coral</option>
+                <option value="Fucsia">Fucsia</option>
+                <option value="Verde Lima">Verde Lima</option>
+                <option value="Azul Marino">Azul Marino</option>
+                <option value="Beige">Beige</option>
+            </select>
 
             <label>Link del video de Instagram</label>
             <input type="url" name="linkInstagram" placeholder="https://www.instagram.com/..." required>
@@ -113,15 +179,28 @@
     </div>
 
     <script>
-        const colores = [
-            'Rojo', 'Naranja', 'Amarillo', 'Verde', 'Celeste', 'Azul', 'Violeta', 'Rosa',
-            'Marrón', 'Gris', 'Negro', 'Blanco', 'Dorado', 'Plateado', 'Turquesa', 'Coral',
-            'Fucsia', 'Verde Lima', 'Azul Marino', 'Beige'
-        ];
-
-        document.querySelectorAll('select').forEach(select => {
-            select.innerHTML = '<option value="" disabled selected>Elegí un color</option>' + colores.map(color => `<option value="${color}">${color}</option>`).join('');
-        });
+        const coloresHex = {
+            'Rojo': '#FF0000',
+            'Naranja': '#FFA500',
+            'Amarillo': '#FFFF00',
+            'Verde': '#008000',
+            'Celeste': '#87CEEB',
+            'Azul': '#0000FF',
+            'Violeta': '#800080',
+            'Rosa': '#FFC0CB',
+            'Marrón': '#A52A2A',
+            'Gris': '#808080',
+            'Negro': '#000000',
+            'Blanco': '#FFFFFF',
+            'Dorado': '#FFD700',
+            'Plateado': '#C0C0C0',
+            'Turquesa': '#40E0D0',
+            'Coral': '#FF7F50',
+            'Fucsia': '#FF00FF',
+            'Verde Lima': '#32CD32',
+            'Azul Marino': '#000080',
+            'Beige': '#F5F5DC'
+        };
 
         const form = document.getElementById('formulario');
         const submitBtn = document.getElementById('submitBtn');
@@ -146,17 +225,24 @@
             // Obtener el contenido del h2
             const h2Content = document.querySelector('header h2').textContent;
 
-            // Recopilar datos del formulario
+            // Recopilar datos del formulario y convertir colores a hex
             const formData = new FormData(this);
-            formData.append('h2Content', h2Content); // Agregar el contenido del h2
+            const dataToSend = {};
 
-            // Convertir FormData a un objeto simple
-            const data = Object.fromEntries(formData.entries());
+            for (const [key, value] of formData.entries()) {
+                if (key.startsWith('color') && coloresHex[value]) {
+                    dataToSend[key] = coloresHex[value];
+                } else {
+                    dataToSend[key] = value;
+                }
+            }
 
-            // Enviar los datos al webhook
+            dataToSend['h2Content'] = h2Content; // Agregar el contenido del h2
+
+            // Enviar los datos al webhook como JSON
             fetch('https://hook.us2.make.com/p0bmy67fwppdcsmr6f2vmp4mlw15vhvo', {
                 method: 'POST',
-                body: JSON.stringify(data),
+                body: JSON.stringify(dataToSend),
                 headers: {
                     'Content-Type': 'application/json'
                 }
