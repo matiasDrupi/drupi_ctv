@@ -129,7 +129,6 @@
             <input type="text" id="titulo" name="titulo" placeholder="Máximo 2 líneas - 35 caracteres" maxlength="35" required>
 
 
-
             <label for="colorTitulo">Color del Título</label>
             <select id="colorTitulo" name="colorTitulo" required>
                 <option value="">Seleccionar</option>
@@ -194,7 +193,7 @@
                 <option value="Azul">Azul</option>
                 <option value="Violeta">Violeta</option>
                 <option value="Rosa">Rosa</option>
-                <option value="Marrón">Marrón</n>
+                <option value="Marrón">Marrón</option>
                 <option value="Gris">Gris</option>
                 <option value="Negro">Negro</option>
                 <option value="Blanco">Blanco</option>
@@ -244,6 +243,7 @@
         const form = document.getElementById('formulario');
         const submitBtn = document.getElementById('submitBtn');
         const chatIdInput = document.getElementById('chat_id'); // Referencia al input del chat ID
+        const linkInstagramInput = document.getElementById('linkInstagram'); // Referencia al input del link de Instagram
 
         // Función para verificar si todos los campos requeridos están llenos
         function areAllRequiredFilled() {
@@ -270,12 +270,20 @@
             // **AGREGANDO EL CHAT ID A LOS DATOS A ENVIAR**
             dataToSend['chat_id'] = chatIdInput.value.trim();
 
+            // **FORMATEANDO LA URL DE INSTAGRAM PARA APPIFY**
+            const instagramLink = linkInstagramInput.value.trim();
+            if (instagramLink) {
+                // Asegurarse de que la URL comience con https://
+                const formattedLink = instagramLink.startsWith('https://') ? instagramLink : `https://${instagramLink}`;
+                dataToSend['directUrls'] = [formattedLink]; // Apify espera un array de URLs
+            }
+
             for (const [key, value] of formData.entries()) {
                 if (key.startsWith('color') && coloresHex[value]) {
                     dataToSend[key] = coloresHex[value];
-                } else if (typeof value === 'string') {
+                } else if (key !== 'linkInstagram' && typeof value === 'string') { // Excluir linkInstagram aquí
                     dataToSend[key] = value.trim().replace(/\n/g, '\\n');
-                } else {
+                } else if (key !== 'linkInstagram') {
                     dataToSend[key] = value;
                 }
             }
