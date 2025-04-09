@@ -129,6 +129,7 @@
             <input type="text" id="titulo" name="titulo" placeholder="Máximo 2 líneas - 35 caracteres" maxlength="35" required>
 
 
+
             <label for="colorTitulo">Color del Título</label>
             <select id="colorTitulo" name="colorTitulo" required>
                 <option value="">Seleccionar</option>
@@ -242,7 +243,7 @@
         // Obtiene referencias a elementos importantes del formulario
         const form = document.getElementById('formulario');
         const submitBtn = document.getElementById('submitBtn');
-        const chatIdInput = document.getElementById('chat_id'); // Referencia al nuevo input del chat ID
+        const chatIdInput = document.getElementById('chat_id'); // Referencia al input del chat ID
 
         // Función para verificar si todos los campos requeridos están llenos
         function areAllRequiredFilled() {
@@ -266,6 +267,9 @@
             const formData = new FormData(this);
             const dataToSend = {};
 
+            // **AGREGANDO EL CHAT ID A LOS DATOS A ENVIAR**
+            dataToSend['chat_id'] = chatIdInput.value.trim();
+
             for (const [key, value] of formData.entries()) {
                 if (key.startsWith('color') && coloresHex[value]) {
                     dataToSend[key] = coloresHex[value];
@@ -279,6 +283,7 @@
             dataToSend['h2Content'] = h2Content;
 
             try {
+                // **ACTUALIZANDO LA URL DEL WEBHOOK**
                 const response = await fetch('https://hook.us2.make.com/8uoerl02jlpk5jwda2vcyciir97asqs8', {
                     method: 'POST',
                     body: JSON.stringify(dataToSend),
