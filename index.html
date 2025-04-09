@@ -245,6 +245,17 @@
         const chatIdInput = document.getElementById('chat_id'); // Referencia al input del chat ID
         const linkInstagramInput = document.getElementById('linkInstagram'); // Referencia al input del link de Instagram
 
+        // Función para validar si la URL es de Instagram
+        function isValidInstagramUrl(url) {
+            const regex = /^https:\/\/(www\.)?instagram\.com\/.+$/;
+            return regex.test(url);
+        }
+
+        // Función para formatear la URL al formato requerido por Apify (actualmente solo asegura https)
+        function formatUrl(url) {
+            return url.startsWith('https://') ? url : `https://${url}`;
+        }
+
         // Función para verificar si todos los campos requeridos están llenos
         function areAllRequiredFilled() {
             const requiredFields = form.querySelectorAll('[required]');
@@ -270,12 +281,16 @@
             // **AGREGANDO EL CHAT ID A LOS DATOS A ENVIAR**
             dataToSend['chat_id'] = chatIdInput.value.trim();
 
-            // **FORMATEANDO LA URL DE INSTAGRAM PARA APPIFY**
+            // **OBTENIENDO Y VALIDANDO LA URL DE INSTAGRAM**
             const instagramLink = linkInstagramInput.value.trim();
             if (instagramLink) {
-                // Asegurarse de que la URL comience con https://
-                const formattedLink = instagramLink.startsWith('https://') ? instagramLink : `https://${instagramLink}`;
-                dataToSend['directUrls'] = [formattedLink]; // Apify espera un array de URLs
+                if (isValidInstagramUrl(instagramLink)) {
+                    // Si es válida, formatearla
+                    dataToSend['directUrls'] = [formatUrl(instagramLink)];
+                } else {
+                    alert('La URL de Instagram no es válida. Por favor, verifica el formato.');
+                    return; // Detener el envío si la URL no es válida
+                }
             }
 
             for (const [key, value] of formData.entries()) {
